@@ -1,0 +1,35 @@
+local dap = require('dap')
+
+-- Initialize dap.configurations.python as an empty table
+dap.configurations.python = {}
+
+-- Insert the external terminal configuration
+table.insert(dap.configurations.python, {
+  type = 'python',
+  request = 'launch',
+  name = 'Launch file in externalTerminal',
+  program = '${file}',
+  console = 'externalTerminal';
+})
+
+-- Further Python configuration for the adapter
+dap.adapters.python = {
+  type = 'executable';
+  command = os.getenv('HOME') .. '/.virtualenvs/debugpy/bin/python';
+  args = { '-m', 'debugpy.adapter' };
+}
+
+-- Add more configurations if needed
+table.insert(dap.configurations.python, {
+  type = 'python';
+  request = 'launch';
+  name = "Launch file";
+  program = "${file}";
+  pythonPath = function()
+    return '/usr/bin/python3' -- Adjust to your python path
+  end;
+})
+
+require('dapui').setup()
+
+
