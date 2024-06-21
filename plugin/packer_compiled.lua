@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/home/hector/.cache/nvim/packer_hererocks/2.1.1692716794/share/lua/5.1/?.lua;/home/hector/.cache/nvim/packer_hererocks/2.1.1692716794/share/lua/5.1/?/init.lua;/home/hector/.cache/nvim/packer_hererocks/2.1.1692716794/lib/luarocks/rocks-5.1/?.lua;/home/hector/.cache/nvim/packer_hererocks/2.1.1692716794/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/home/hector/.cache/nvim/packer_hererocks/2.1.1692716794/lib/lua/5.1/?.so"
+local package_path_str = "/home/hector/.cache/nvim/packer_hererocks/2.1.1707061634/share/lua/5.1/?.lua;/home/hector/.cache/nvim/packer_hererocks/2.1.1707061634/share/lua/5.1/?/init.lua;/home/hector/.cache/nvim/packer_hererocks/2.1.1707061634/lib/luarocks/rocks-5.1/?.lua;/home/hector/.cache/nvim/packer_hererocks/2.1.1707061634/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/home/hector/.cache/nvim/packer_hererocks/2.1.1707061634/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -110,13 +110,6 @@ _G.packer_plugins = {
     path = "/home/hector/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim",
     url = "https://github.com/VonHeikemen/lsp-zero.nvim"
   },
-  ["markdown-preview.nvim"] = {
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/home/hector/.local/share/nvim/site/pack/packer/opt/markdown-preview.nvim",
-    url = "https://github.com/iamcco/markdown-preview.nvim"
-  },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
     path = "/home/hector/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
@@ -128,7 +121,7 @@ _G.packer_plugins = {
     url = "https://github.com/williamboman/mason.nvim"
   },
   ["nvim-autopairs"] = {
-    config = { "\27LJ\2\n„\2\0\0\v\0\15\0\0256\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3\3\0005\4\4\0=\4\5\3B\1\2\0016\1\0\0'\3\6\0B\1\2\0026\2\0\0'\4\a\0B\2\2\0029\3\b\2\18\5\3\0009\3\t\3'\6\n\0009\a\v\0015\t\r\0005\n\f\0=\n\14\tB\a\2\0A\3\2\1K\0\1\0\rmap_char\1\0\0\1\0\1\btex\5\20on_confirm_done\17confirm_done\aon\nevent\bcmp\"nvim-autopairs.completion.cmp\14ts_config\1\0\1\thtml\2\1\0\1\rcheck_ts\2\nsetup\19nvim-autopairs\frequire\0" },
+    config = { "\27LJ\2\n™\2\0\0\v\0\15\0\0256\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3\3\0005\4\4\0=\4\5\3B\1\2\0016\1\0\0'\3\6\0B\1\2\0026\2\0\0'\4\a\0B\2\2\0029\3\b\2\18\5\3\0009\3\t\3'\6\n\0009\a\v\0015\t\r\0005\n\f\0=\n\14\tB\a\2\0A\3\2\1K\0\1\0\rmap_char\1\0\1\rmap_char\0\1\0\1\btex\5\20on_confirm_done\17confirm_done\aon\nevent\bcmp\"nvim-autopairs.completion.cmp\14ts_config\1\0\1\thtml\2\1\0\2\14ts_config\0\rcheck_ts\2\nsetup\19nvim-autopairs\frequire\0" },
     loaded = true,
     path = "/home/hector/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
     url = "https://github.com/windwp/nvim-autopairs"
@@ -157,6 +150,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/hector/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
+  },
+  ["nvim-nio"] = {
+    loaded = true,
+    path = "/home/hector/.local/share/nvim/site/pack/packer/start/nvim-nio",
+    url = "https://github.com/nvim-neotest/nvim-nio"
   },
   ["nvim-treesitter"] = {
     loaded = true,
@@ -196,25 +194,14 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Setup for: markdown-preview.nvim
-time([[Setup for markdown-preview.nvim]], true)
-try_loadstring("\27LJ\2\n=\0\0\2\0\4\0\0056\0\0\0009\0\1\0005\1\3\0=\1\2\0K\0\1\0\1\2\0\0\rmarkdown\19mkdp_filetypes\6g\bvim\0", "setup", "markdown-preview.nvim")
-time([[Setup for markdown-preview.nvim]], false)
 -- Config for: Comment.nvim
 time([[Config for Comment.nvim]], true)
 try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
 time([[Config for Comment.nvim]], false)
 -- Config for: nvim-autopairs
 time([[Config for nvim-autopairs]], true)
-try_loadstring("\27LJ\2\n„\2\0\0\v\0\15\0\0256\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3\3\0005\4\4\0=\4\5\3B\1\2\0016\1\0\0'\3\6\0B\1\2\0026\2\0\0'\4\a\0B\2\2\0029\3\b\2\18\5\3\0009\3\t\3'\6\n\0009\a\v\0015\t\r\0005\n\f\0=\n\14\tB\a\2\0A\3\2\1K\0\1\0\rmap_char\1\0\0\1\0\1\btex\5\20on_confirm_done\17confirm_done\aon\nevent\bcmp\"nvim-autopairs.completion.cmp\14ts_config\1\0\1\thtml\2\1\0\1\rcheck_ts\2\nsetup\19nvim-autopairs\frequire\0", "config", "nvim-autopairs")
+try_loadstring("\27LJ\2\n™\2\0\0\v\0\15\0\0256\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3\3\0005\4\4\0=\4\5\3B\1\2\0016\1\0\0'\3\6\0B\1\2\0026\2\0\0'\4\a\0B\2\2\0029\3\b\2\18\5\3\0009\3\t\3'\6\n\0009\a\v\0015\t\r\0005\n\f\0=\n\14\tB\a\2\0A\3\2\1K\0\1\0\rmap_char\1\0\1\rmap_char\0\1\0\1\btex\5\20on_confirm_done\17confirm_done\aon\nevent\bcmp\"nvim-autopairs.completion.cmp\14ts_config\1\0\1\thtml\2\1\0\2\14ts_config\0\rcheck_ts\2\nsetup\19nvim-autopairs\frequire\0", "config", "nvim-autopairs")
 time([[Config for nvim-autopairs]], false)
-vim.cmd [[augroup packer_load_aucmds]]
-vim.cmd [[au!]]
-  -- Filetype lazy-loads
-time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType markdown ++once lua require("packer.load")({'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
-time([[Defining lazy-load filetype autocommands]], false)
-vim.cmd("augroup END")
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then
