@@ -77,5 +77,37 @@ return {
 
 		dap_python.setup("python3")
 		dap_python.test_runner = "pytest"
+
+		-- C# Setup
+		dap.adapters.coreclr = {
+			type = "executable",
+			command = "netcoredbg",
+			args = { "--interpreter=vscode" },
+		}
+
+		dap.configurations.cs = {
+			{
+				type = "coreclr",
+				name = "Launch - netcoredbg",
+				request = "launch",
+				program = function()
+					local cwd = vim.fn.getcwd()
+					local dll_path = cwd .. "/bin/Debug/net8.0/" .. vim.fn.fnamemodify(cwd, ":t") .. ".dll"
+					-- Ensure the DLL path exists and return it
+					if vim.fn.filereadable(dll_path) == 1 then
+						return dll_path
+					else
+						error("Could not find the DLL: " .. dll_path)
+					end
+				end,
+				preLaunchTask = function()
+					-- Run dotnet build before starting the debugger
+					vim.fn.system("dotnet build --configuration Debug")
+				end,
+				cwd = "${workspaceFolder}",
+				stopAtEntry = false,
+				console = "integratedTerminal",
+			},
+		}
 	end,
 }
