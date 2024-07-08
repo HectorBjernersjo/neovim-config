@@ -11,6 +11,7 @@ return {
 		"nvim-neotest/nvim-nio",
 		"theHamsta/nvim-dap-virtual-text",
 		"mfussenegger/nvim-dap-python",
+		"simrat39/rust-tools.nvim",
 		{
 			"microsoft/vscode-js-debug",
 			-- After install, build it and rename the dist directory to out
@@ -63,6 +64,7 @@ return {
 		local dap = require("dap")
 		local dapui = require("dapui")
 		local dap_python = require("dap-python")
+		local rust_tools = require("rust-tools")
 
 		require("nvim-dap-virtual-text").setup({})
 
@@ -129,6 +131,71 @@ return {
 		dap_python.setup("python3")
 		dap_python.test_runner = "pytest"
 
+		-- Setup codelldb adapter
+		local mason_registry = require("mason-registry")
+		local codelldb_root = mason_registry.get_package("codelldb"):get_install_path()
+		local codelldb_path = codelldb_root .. "/extension/adapter/codelldb"
+		local liblldb_path = codelldb_root .. "/extension/lldb/lib/liblldb"
+		local this_os = vim.loop.os_uname().sysname
+		liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
+
+		dap.adapters.codelldb = {
+			type = "server",
+			port = "${port}",
+			executable = {
+				command = codelldb_path,
+				args = { "--port", "${port}" },
+			},
+		}
+
+		local function get_rust_executable()
+			local cargo_toml = vim.fn.findfile("Cargo.toml", vim.fn.getcwd() .. ";")
+			if cargo_toml == "" then
+				print("No Cargo.toml found. Are you in a Rust project?")
+				return nil
+			end
+
+			local cargo_dir = vim.fn.fnamemodify(cargo_toml, ":h")
+			local package_name =
+				vim.fn.system(string.format("awk -F '\"' '/^name/ {print $2}' %s", cargo_toml)):gsub("%s+", "")
+
+			local debug_executable = string.format("%s/target/debug/%s", cargo_dir, package_name)
+			if vim.fn.executable(debug_executable) == 1 then
+				return debug_executable
+			else
+				print("Debug executable not found. Did you run 'cargo build'?")
+				return nil
+			end
+		end
+		-- In your config function
+		local mason = require("mason")
+		mason.setup()
+
+		-- Ensure codelldb is installed
+		if not require("mason-registry").is_installed("codelldb") then
+			vim.cmd("MasonInstall codelldb")
+		end
+		-- Rust setup
+		rust_tools.setup({
+			dap = {
+				adapter = dap.adapters.codelldb,
+			},
+		})
+
+		dap.configurations.rust = {
+			{
+				name = "Launch Rust Program",
+				type = "codelldb", -- This should match the adapter name
+				request = "launch",
+				program = function()
+					return get_rust_executable() or vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+				end,
+				cwd = "${workspaceFolder}",
+				stopOnEntry = false,
+				args = {},
+				runInTerminal = false,
+			},
+		}
 		-- C# Setup
 		dap.adapters.coreclr = {
 			type = "executable",

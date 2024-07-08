@@ -73,6 +73,7 @@ return {
 
 			local servers = {
 				pyright = {},
+				rust_analyzer = {},
 				omnisharp = {
 					-- cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()), "-z" },
 					capabilities = capabilities,
