@@ -25,7 +25,7 @@ return {
 				ui.nav_file(1)
 			end, { desc = "Harpoon Goto File 1" })
 
-			vim.keymap.set("n", "<C-w>", function()
+			vim.keymap.set("n", "F13", function()
 				ui.nav_file(2)
 			end, { desc = "Harpoon Goto File 2" })
 

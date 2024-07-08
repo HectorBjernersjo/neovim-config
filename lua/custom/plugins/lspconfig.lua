@@ -89,6 +89,7 @@ return {
 						},
 					},
 				},
+				["typescript-language-server"] = {},
 			}
 
 			require("mason").setup()
