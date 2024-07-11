@@ -9,7 +9,7 @@ return {
 	dependencies = {
 		"rcarriga/nvim-dap-ui",
 		"nvim-neotest/nvim-nio",
-		"theHamsta/nvim-dap-virtual-text",
+		-- "theHamsta/nvim-dap-virtual-text",
 		"mfussenegger/nvim-dap-python",
 		"simrat39/rust-tools.nvim",
 		{
@@ -66,7 +66,7 @@ return {
 		local dap_python = require("dap-python")
 		local rust_tools = require("rust-tools")
 
-		require("nvim-dap-virtual-text").setup({})
+		-- require("nvim-dap-virtual-text").setup({})
 
 		-- Basic debugging keymaps, feel free to change to your liking!
 		vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Start/Continue" })
@@ -82,9 +82,6 @@ return {
 		-- Dap UI setup
 		-- For more information, see |:help nvim-dap-ui|
 		dapui.setup({
-			-- Set icons to characters that are more likely to work in every terminal.
-			--    Feel free to remove or use ones that you like more! :)
-			--    Don't feel like these are good choices.
 			icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
 			controls = {
 				icons = {
@@ -103,20 +100,18 @@ return {
 				{
 					elements = {
 						"scopes",
-						-- 'stacks',
 						"watches",
-						"repl",
-						-- Exclude breakpoints and [dap-repl] by not listing them here
 					},
-					size = 40, -- Adjust size as needed
-					position = "right", -- Can be "left", "right", "top", "bottom"
+					size = 60,
+					position = "right",
 				},
 				{
 					elements = {
-						"console", -- Include the integrated terminal
+						{ id = "repl", size = 0.3 }, -- REPL takes up 30% of the space
+						{ id = "console", size = 0.7 }, -- Console takes up 70% of the space
 					},
-					size = 10, -- Adjust size for the terminal as needed
-					position = "bottom", -- Position of the terminal
+					size = 60,
+					position = "left",
 				},
 			},
 		})

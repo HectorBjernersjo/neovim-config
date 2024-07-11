@@ -1,6 +1,5 @@
 -- My own keymaps
 vim.keymap.set("n", "<leader>a", "ggVGy", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("n", "<leader>v", vim.cmd.sp)
 vim.keymap.set("n", "<leader>h", vim.cmd.vsp)
 vim.keymap.set("n", "<C-n>", vim.cmd.bnext)

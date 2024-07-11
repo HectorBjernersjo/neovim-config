@@ -32,6 +32,10 @@ if not vim.loop.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+-- vim.cmd([[
+--   let $LUA_PATH = '/usr/share/lua/5.4/?.lua;/usr/local/share/lua/5.4/?.lua;/usr/local/share/lua/5.4/?/init.lua;/usr/share/lua/5.4/?/init.lua;/usr/local/lib/lua/5.4/?.lua;/usr/local/lib/lua/5.4/?/init.lua;/usr/lib/lua/5.4/?.lua;/usr/lib/lua/5.4/?/init.lua;./?.lua;./?/init.lua;/home/hector/.luarocks/share/lua/5.4/?.lua;/home/hector/.luarocks/share/lua/5.4/?/init.lua'
+--   let $LUA_CPATH = '/usr/local/lib/lua/5.4/?.so;/usr/lib/lua/5.4/?.so;/usr/local/lib/lua/5.4/loadall.so;/usr/lib/lua/5.4/loadall.so;./?.so;/home/hector/.luarocks/lib/lua/5.4/?.so' ]])
+
 require("lazy").setup({
 	require("colorscheme"),
 	-- My own Requirements
@@ -52,6 +56,9 @@ require("lazy").setup({
 	require("custom.plugins.dashboard"),
 	require("custom.plugins.copilot"),
 	require("custom.plugins.vim_tmux_navigator"),
+	require("custom.plugins.quarto"),
+	require("custom.plugins.oil"),
+	require("custom.plugins.vimtex"),
 	--
 	require("kickstart.plugins.debug"),
 	require("kickstart.plugins.autopairs"),
