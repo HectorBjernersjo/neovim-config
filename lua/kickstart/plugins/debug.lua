@@ -205,7 +205,15 @@ return {
 				request = "launch",
 				program = function()
 					local cwd = vim.fn.getcwd()
-					local dll_path = cwd .. "/bin/Debug/net8.0/" .. vim.fn.fnamemodify(cwd, ":t") .. ".dll"
+					-- Find the .csproj file in the current directory
+					local csproj_file = vim.fn.globpath(cwd, "*.csproj")
+					if csproj_file == "" then
+						error("Could not find a .csproj file in the current directory: " .. cwd)
+					end
+					-- Extract the project name from the .csproj file
+					local project_name = vim.fn.fnamemodify(csproj_file, ":t:r")
+					-- Construct the DLL path
+					local dll_path = cwd .. "/bin/Debug/net8.0/" .. project_name .. ".dll"
 					-- Ensure the DLL path exists and return it
 					if vim.fn.filereadable(dll_path) == 1 then
 						return dll_path
@@ -219,7 +227,7 @@ return {
 				end,
 				cwd = "${workspaceFolder}",
 				stopAtEntry = false,
-				console = "integratedTerminal",
+				-- console = "integratedTerminal",
 			},
 		}
 		for _, language in ipairs(js_based_languages) do

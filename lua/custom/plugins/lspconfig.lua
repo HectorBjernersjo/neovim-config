@@ -11,6 +11,7 @@ return {
 			{ "j-hui/fidget.nvim", opts = {} },
 
 			{ "folke/neodev.nvim", opts = {} },
+			{ "maxmellon/vim-jsx-pretty", ft = { "html", "javascriptreact" } },
 		},
 		config = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -72,7 +73,17 @@ return {
 			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
 			local servers = {
-				pyright = {},
+				-- pyright = {},
+				pyright = {
+					settings = {
+						python = {
+							pythonPath = "python", -- Adjust this path
+							analysis = {
+								extraPaths = { "/path/to/your/virtualenv/lib/python3.12/site-packages" }, -- Adjust this path
+							},
+						},
+					},
+				},
 				rust_analyzer = {},
 				omnisharp = {
 					-- cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()), "-z" },
