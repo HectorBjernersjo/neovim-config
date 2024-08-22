@@ -4,6 +4,14 @@ return {
 	{ "rebelot/kanagawa.nvim", event = "VeryLazy" },
 	{ "rose-pine/neovim", event = "VeryLazy" },
 	{
+		"maxmx03/solarized.nvim",
+		event = "VeryLazy",
+		config = function()
+			vim.o.background = "dark" -- or 'light'
+			-- vim.cmd.colorscheme("solarized")
+		end,
+	},
+	{
 		"folke/tokyonight.nvim",
 		priority = 1000, -- Make sure to load this before all the other start plugins.
 		init = function()
