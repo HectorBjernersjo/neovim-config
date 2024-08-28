@@ -8,6 +8,8 @@ vim.keymap.set("n", "<C-p>", vim.cmd.bprevious)
 vim.keymap.set("v", "<S-J>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
 vim.keymap.set("v", "<S-K>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
 
+vim.keymap.set("n", "<leader>p", '"_dP')
+
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
