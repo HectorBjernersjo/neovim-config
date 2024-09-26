@@ -9,7 +9,7 @@ return {
 				"L3MON4D3/LuaSnip",
 			},
 			"saadparwaiz1/cmp_luasnip",
-
+			"rafamadriz/friendly-snippets", -- Collection of snippets including HTML
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-path",
 			"hrsh7th/cmp-cmdline",
@@ -19,6 +19,8 @@ return {
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			luasnip.config.setup({})
+
+			require("luasnip.loaders.from_vscode").lazy_load()
 
 			cmp.setup({
 				snippet = {
