@@ -1,319 +1,134 @@
-local js_based_languages = {
-	"typescript",
-	"javascript",
-}
-
 return {
-	"mfussenegger/nvim-dap",
-	event = "VeryLazy",
-	dependencies = {
-		"rcarriga/nvim-dap-ui",
-		"nvim-neotest/nvim-nio",
-		-- "theHamsta/nvim-dap-virtual-text",
-		"mfussenegger/nvim-dap-python",
-		"simrat39/rust-tools.nvim",
-		{
-			"microsoft/vscode-js-debug",
-			-- After install, build it and rename the dist directory to out
-			build = "npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -rf out && mv dist out",
-			version = "1.*",
+	{
+		"mfussenegger/nvim-dap",
+		dependencies = {
+			"mfussenegger/nvim-dap-python",
+			"nvim-neotest/nvim-nio",
+			"rcarriga/nvim-dap-ui",
 		},
-		{
-			"mxsdev/nvim-dap-vscode-js",
-			config = function()
-				---@diagnostic disable-next-line: missing-fields
-				require("dap-vscode-js").setup({
-					-- Path of node executable. Defaults to $NODE_PATH, and then "node"
-					-- node_path = "node",
+		config = function()
+			local dap = require("dap")
+			local dapui = require("dapui")
 
-					-- Path to vscode-js-debug installation.
-					debugger_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/lazy/vscode-js-debug"),
+			-- Python DAP setup
+			require("dap-python").setup("python3")
 
-					-- Command to use to launch the debug server. Takes precedence over "node_path" and "debugger_path"
-					-- debugger_cmd = { "js-debug-adapter" },
-
-					-- which adapters to register in nvim-dap
-					adapters = {
-						"chrome",
-						"pwa-node",
-						"pwa-chrome",
-						"pwa-msedge",
-						"pwa-extensionHost",
-						"node-terminal",
-						"node",
-					},
-
-					-- Path for file logging
-					-- log_file_path = "(stdpath cache)/dap_vscode_js.log",
-
-					-- Logging level for output to file. Set to false to disable logging.
-					-- log_file_level = false,
-
-					-- Logging level for output to console. Set to false to disable console output.
-					-- log_console_level = vim.log.levels.ERROR,
-				})
-			end,
-		},
-		{
-			"Joakker/lua-json5",
-			build = "./install.sh",
-		},
-	},
-
-	config = function()
-		local dap = require("dap")
-		local dapui = require("dapui")
-		local dap_python = require("dap-python")
-		local rust_tools = require("rust-tools")
-
-		-- require("nvim-dap-virtual-text").setup({})
-
-		-- Basic debugging keymaps, feel free to change to your liking!
-		vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Start/Continue" })
-		vim.keymap.set("n", "<F4>", dapui.toggle, { desc = "Debug: Toggle UI" })
-		vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
-		vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
-		-- vim.keymap.set('n', '<F12>', dap.step_out, { desc = 'Debug: Step Out' })
-		vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })
-		vim.keymap.set("n", "<leader>B", function()
-			dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
-		end, { desc = "Debug: Set Breakpoint" })
-
-		-- Dap UI setup
-		-- For more information, see |:help nvim-dap-ui|
-		dapui.setup({
-			icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
-			controls = {
-				icons = {
-					pause = "⏸",
-					play = "▶",
-					step_into = "⏎",
-					step_over = "⏭",
-					step_out = "⏮",
-					step_back = "b",
-					run_last = "▶▶",
-					terminate = "⏹",
-					disconnect = "⏏",
-				},
-			},
-			layouts = {
+			-- Setting default Python configuration to set working directory and PYTHONPATH
+			dap.configurations.python = {
 				{
-					elements = {
-						"scopes",
-						"watches",
-					},
-					size = 60,
-					position = "right",
-				},
-				{
-					elements = {
-						{ id = "repl", size = 0.3 }, -- REPL takes up 30% of the space
-						{ id = "console", size = 0.7 }, -- Console takes up 70% of the space
-					},
-					size = 60,
-					position = "left",
-				},
-			},
-		})
-
-		-- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-		vim.keymap.set("n", "<F7>", dapui.toggle, { desc = "Debug: See last session result." })
-
-		dap.listeners.after.event_initialized["dapui_config"] = dapui.open
-		-- dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-		-- dap.listeners.before.event_exited['dapui_config'] = dapui.close
-
-		dap_python.setup("python3")
-		dap_python.test_runner = "pytest"
-
-		-- Setup codelldb adapter
-		local mason_registry = require("mason-registry")
-		local codelldb_root = mason_registry.get_package("codelldb"):get_install_path()
-		local codelldb_path = codelldb_root .. "/extension/adapter/codelldb"
-		local liblldb_path = codelldb_root .. "/extension/lldb/lib/liblldb"
-		local this_os = vim.loop.os_uname().sysname
-		liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
-
-		dap.adapters.codelldb = {
-			type = "server",
-			port = "${port}",
-			executable = {
-				command = codelldb_path,
-				args = { "--port", "${port}" },
-			},
-		}
-
-		local function get_rust_executable()
-			local cargo_toml = vim.fn.findfile("Cargo.toml", vim.fn.getcwd() .. ";")
-			if cargo_toml == "" then
-				print("No Cargo.toml found. Are you in a Rust project?")
-				return nil
-			end
-
-			local cargo_dir = vim.fn.fnamemodify(cargo_toml, ":h")
-			local package_name =
-				vim.fn.system(string.format("awk -F '\"' '/^name/ {print $2}' %s", cargo_toml)):gsub("%s+", "")
-
-			local debug_executable = string.format("%s/target/debug/%s", cargo_dir, package_name)
-			if vim.fn.executable(debug_executable) == 1 then
-				return debug_executable
-			else
-				print("Debug executable not found. Did you run 'cargo build'?")
-				return nil
-			end
-		end
-		-- In your config function
-		local mason = require("mason")
-		mason.setup()
-
-		-- Ensure codelldb is installed
-		if not require("mason-registry").is_installed("codelldb") then
-			vim.cmd("MasonInstall codelldb")
-		end
-		-- Rust setup
-		rust_tools.setup({
-			dap = {
-				adapter = dap.adapters.codelldb,
-			},
-		})
-
-		dap.configurations.rust = {
-			{
-				name = "Launch Rust Program",
-				type = "codelldb", -- This should match the adapter name
-				request = "launch",
-				program = function()
-					return get_rust_executable() or vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-				end,
-				cwd = "${workspaceFolder}",
-				stopOnEntry = false,
-				args = {},
-				runInTerminal = false,
-			},
-		}
-		-- C# Setup
-		dap.adapters.coreclr = {
-			type = "executable",
-			command = "netcoredbg",
-			args = { "--interpreter=vscode" },
-		}
-
-		dap.configurations.cs = {
-			{
-				type = "coreclr",
-				name = "Launch - netcoredbg",
-				request = "launch",
-				program = function()
-					local cwd = vim.fn.getcwd()
-					-- Find the .csproj file in the current directory
-					local csproj_file = vim.fn.globpath(cwd, "*.csproj")
-					if csproj_file == "" then
-						error("Could not find a .csproj file in the current directory: " .. cwd)
-					end
-					-- Extract the project name from the .csproj file
-					local project_name = vim.fn.fnamemodify(csproj_file, ":t:r")
-					-- Construct the DLL path
-					local dll_path = cwd .. "/bin/Debug/net8.0/" .. project_name .. ".dll"
-					-- Ensure the DLL path exists and return it
-					if vim.fn.filereadable(dll_path) == 1 then
-						return dll_path
-					else
-						error("Could not find the DLL: " .. dll_path)
-					end
-				end,
-				preLaunchTask = function()
-					-- Run dotnet build before starting the debugger
-					vim.fn.system("dotnet build --configuration Debug")
-				end,
-				cwd = "${workspaceFolder}",
-				stopAtEntry = false,
-				-- console = "integratedTerminal",
-			},
-		}
-		for _, language in ipairs(js_based_languages) do
-			dap.configurations[language] = {
-				-- Debug single nodejs files
-				{
-					type = "pwa-node",
+					type = "python",
 					request = "launch",
 					name = "Launch file",
-					program = "${file}",
-					cwd = vim.fn.getcwd(),
-					sourceMaps = true,
-				},
-				-- Debug nodejs processes (make sure to add --inspect when you run the process)
-				{
-					type = "pwa-node",
-					request = "attach",
-					name = "Attach",
-					processId = require("dap.utils").pick_process,
-					cwd = vim.fn.getcwd(),
-					sourceMaps = true,
-				},
-				-- Debug web applications (client side)
-				{
-					type = "pwa-chrome",
-					request = "launch",
-					name = "Launch & Debug Chrome",
-					url = function()
-						local co = coroutine.running()
-						return coroutine.create(function()
-							vim.ui.input({
-								prompt = "Enter URL: ",
-								default = "http://localhost:3000",
-							}, function(url)
-								if url == nil or url == "" then
-									return
-								else
-									coroutine.resume(co, url)
-								end
-							end)
-						end)
+					program = "${file}", -- Launch the current file
+					pythonPath = function()
+						return "python3" -- Specify Python interpreter
 					end,
-					webRoot = vim.fn.getcwd(),
-					protocol = "inspector",
-					sourceMaps = true,
-					userDataDir = false,
-				},
-				-- Divider for the launch.json derived configs
-				{
-					name = "----- ↓ launch.json configs ↓ -----",
-					type = "",
-					request = "launch",
+					cwd = "${workspaceFolder}", -- Set the working directory to the current workspace folder
+					env = function()
+						return {
+							PYTHONPATH = "${workspaceFolder}", -- Add the current workspace folder to PYTHONPATH
+						}
+					end,
+					console = "integratedTerminal", -- Use the integrated terminal instead of DAP REPL
 				},
 			}
-		end
-	end,
-	keys = {
-		{
-			"<leader>dO",
-			function()
-				require("dap").step_out()
-			end,
-			desc = "Step Out",
-		},
-		{
-			"<leader>do",
-			function()
-				require("dap").step_over()
-			end,
-			desc = "Step Over",
-		},
-		{
-			"<leader>da",
-			function()
-				if vim.fn.filereadable(".vscode/launch.json") then
-					local dap_vscode = require("dap.ext.vscode")
-					dap_vscode.load_launchjs(nil, {
-						["pwa-node"] = js_based_languages,
-						["node"] = js_based_languages,
-						["chrome"] = js_based_languages,
-						["pwa-chrome"] = js_based_languages,
-					})
-				end
-				require("dap").continue()
-			end,
-			desc = "Run with Args",
-		},
+
+			-- -- Configure Java debugging
+			-- dap.adapters.java = {
+			-- 	type = "server",
+			-- 	host = "127.0.0.1",
+			-- 	port = 5005, -- Default debug server port
+			-- }
+			--
+			-- dap.configurations.java = {
+			-- 	{
+			-- 		type = "java",
+			-- 		request = "attach",
+			-- 		name = "Attach to running JVM",
+			-- 		hostName = "127.0.0.1",
+			-- 		port = 5005,
+			-- 	},
+			-- 	{
+			-- 		type = "java",
+			-- 		request = "launch",
+			-- 		name = "Launch Java Application",
+			-- 		mainClass = "<Path_to_Main_Class>", -- Replace with the main class path
+			-- 		projectRoot = vim.fn.getcwd(), -- Sets the current working directory as project root
+			-- 		args = {}, -- Add arguments to pass to the application
+			-- 		jvmArgs = {}, -- Add JVM arguments if needed
+			-- 		env = { JAVA_HOME = "/path/to/your/java/home" },
+			-- 	},
+			-- }
+
+			-- Optional: Configure custom DAP key mappings
+			vim.keymap.set("n", "<F4>", dapui.toggle, { desc = "Debug: Toggle UI" })
+			vim.keymap.set("n", "<F5>", function()
+				dap.continue()
+			end)
+			vim.keymap.set("n", "<F6>", dap.run_to_cursor, { desc = "Debug: Run to cursor" })
+			vim.keymap.set("n", "<leader>d", function()
+				dap.continue()
+			end)
+			vim.keymap.set("n", "<leader>n", function()
+				dap.step_over()
+			end)
+			vim.keymap.set("n", "<F11>", function()
+				dap.step_into()
+			end)
+			vim.keymap.set("n", "<leader>i", function()
+				dap.step_into()
+			end)
+			vim.keymap.set("n", "<F12>", function()
+				dap.step_out()
+			end)
+			vim.keymap.set("n", "<Leader>b", function()
+				dap.toggle_breakpoint()
+			end)
+			vim.keymap.set("n", "<Leader>B", function()
+				dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
+			end)
+
+			-- DAP UI setup
+			local dapui = require("dapui")
+			dapui.setup()
+
+			dap.listeners.after.event_initialized["dapui_config"] = function()
+				dapui.open()
+			end
+
+			dapui.setup({
+				icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
+				controls = {
+					icons = {
+						pause = "⏸",
+						play = "▶",
+						step_into = "⏎",
+						step_over = "⏭",
+						step_out = "⏮",
+						step_back = "b",
+						run_last = "▶▶",
+						terminate = "⏹",
+						disconnect = "⏏",
+					},
+				},
+				layouts = {
+					{
+						elements = {
+							"watches",
+							{ id = "repl", size = 0.5 }, -- REPL and Watches on the right
+						},
+						size = 60,
+						position = "right",
+					},
+					{
+						elements = {
+							{ id = "console", size = 1.0 }, -- Console taking up the full bottom space
+						},
+						size = 15, -- Adjust this as needed for console height
+						position = "bottom",
+					},
+				},
+			})
+		end,
 	},
 }

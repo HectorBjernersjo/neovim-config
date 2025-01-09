@@ -5,6 +5,8 @@ vim.keymap.set("n", "<leader>h", vim.cmd.vsp)
 vim.keymap.set("n", "<C-n>", vim.cmd.bnext)
 vim.keymap.set("n", "<C-p>", vim.cmd.bprevious)
 
+vim.keymap.set("i", "<C-d>", "<Del>")
+
 vim.keymap.set("v", "<S-J>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
 vim.keymap.set("v", "<S-K>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
 

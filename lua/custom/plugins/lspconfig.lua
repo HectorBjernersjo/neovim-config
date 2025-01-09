@@ -78,9 +78,9 @@ return {
 					settings = {
 						python = {
 							pythonPath = "python", -- Adjust this path
-							analysis = {
-								extraPaths = { "/path/to/your/virtualenv/lib/python3.12/site-packages" }, -- Adjust this path
-							},
+							-- analysis = {
+							-- 	extraPaths = { "/path/to/your/virtualenv/lib/python3.12/site-packages" }, -- Adjust this path
+							-- },
 						},
 					},
 				},
@@ -101,6 +101,7 @@ return {
 						},
 					},
 				},
+				jdtls = {},
 				["typescript-language-server"] = {},
 			}
 
