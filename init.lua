@@ -62,7 +62,7 @@ require("lazy").setup({
 	require("custom.plugins.trouble"),
 	require("custom.plugins.java"),
 	require("custom.plugins.magma"),
-	require("custom.plugins.notebooknavigator"),
+	-- require("custom.plugins.notebooknavigator"),
 	--
 	require("kickstart.plugins.debug"),
 	require("kickstart.plugins.autopairs"),
