@@ -39,6 +39,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	require("colorscheme"),
 	-- My own Requirements
+  require("custom.lsp.plugins"),
 	require("custom.plugins.harpoon"),
 	require("custom.plugins.undotree"),
 	require("custom.plugins.vimbegood"),
@@ -46,9 +47,9 @@ require("lazy").setup({
 	require("custom.plugins.whichkeys"),
 	require("custom.plugins.gitsigns"),
 	require("custom.plugins.telescope"),
-	require("custom.plugins.lspconfig"),
+	-- require("custom.plugins.lspconfig"),
 	require("custom.plugins.autoformat"),
-	require("custom.plugins.autocomplete"),
+	-- require("custom.plugins.autocomplete"),
 	-- require("custom.plugins.tokyonight"),
 	require("custom.plugins.mini"),
 	require("custom.plugins.treesitter"),
@@ -59,7 +60,7 @@ require("lazy").setup({
 	require("custom.plugins.quarto"),
 	require("custom.plugins.oil"),
 	require("custom.plugins.vimtex"),
-	require("custom.plugins.trouble"),
+	-- require("custom.plugins.trouble"),
 	require("custom.plugins.java"),
 	require("custom.plugins.magma"),
 	-- require("custom.plugins.notebooknavigator"),
