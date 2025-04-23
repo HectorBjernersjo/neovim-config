@@ -4,14 +4,14 @@ local M = {}
 M.enabled = true
 
 M.opts = {
-  settings = {
-    python = {
-      analysis = {
-        typeCheckingMode = "basic",
-        diagnosticMode    = "workspace",
-      },
-    },
-  },
+	settings = {
+		python = {
+			analysis = {
+				typeCheckingMode = "basic",
+				diagnosticMode = "workspace",
+			},
+		},
+	},
 }
 
 return M
