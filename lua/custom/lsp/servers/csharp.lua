@@ -6,23 +6,33 @@ local M = {}
 M.enabled = true
 
 M.opts = {
-	-- mason will install "omnisharp" for us,
-	-- so we just point to it and pass the --languageserver flag
-	cmd = {
-		"omnisharp",
-		"--languageserver",
-		"--hostPID",
-		tostring(vim.fn.getpid()),
-	},
+    -- mason will install "omnisharp" for us,
+    -- so we just point to it and pass the --languageserver flag
+    cmd = {
+        "omnisharp",
+        "--languageserver",
+        "--hostPID",
+        tostring(vim.fn.getpid()),
+    },
+    --
+    -- how we determine the project root
+    root_dir = util.root_pattern("*.sln", "*.csproj"),
+    settings = {
+        -- respect your .editorconfig
+        EnableEditorConfigSupport = true,
+        -- run Roslyn analyzers in the background
+        EnableRoslynAnalyzers = true,
 
-	-- how we determine the project root
-	root_dir = util.root_pattern("*.sln", "*.csproj"),
+        -- turn on “show me types I haven’t imported yet”
+        RoslynExtensionsOptions = {
+            EnableImportCompletion = true,
+        },
 
-	-- OmniSharp‑specific settings you can tweak
-	enable_editorconfig_support = true,
-	enable_roslyn_analyzers = true,
-	organize_imports_on_format = true,
-	enable_import_completion = true,
+        -- when formatting, keep usings tidy
+        FormattingOptions = {
+            OrganizeImports = true,
+        },
+    },
 }
 
 return M
