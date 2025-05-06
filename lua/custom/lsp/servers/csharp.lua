@@ -18,6 +18,9 @@ M.opts = {
     -- how we determine the project root
     root_dir = util.root_pattern("*.sln", "*.csproj"),
     settings = {
+        Cake = {
+            Enabled = false,
+        },
         -- respect your .editorconfig
         EnableEditorConfigSupport = true,
         -- run Roslyn analyzers in the background
