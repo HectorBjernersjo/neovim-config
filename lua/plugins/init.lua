@@ -5,7 +5,7 @@ return {
     require('plugins.dadbod'),
     require('plugins.harpoon'),
     require('plugins.tiny_inline_diagnostics'),
-    -- require('plugins.trouble'),
+    require('plugins.trouble'),
 
     require('plugins.snacks'),
     require('plugins.mini'),

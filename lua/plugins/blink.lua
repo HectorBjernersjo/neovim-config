@@ -30,7 +30,7 @@ return {
             completion = { documentation = { auto_show = false } },
             snippets = { preset = "luasnip" },
             sources = {
-                default = { 'lsp', 'path', 'snippets', 'buffer' },
+                default = { 'snippets', 'lsp', 'path', 'buffer' },
 
                 per_filetype = {
                     sql = { 'snippets', 'dadbod', 'buffer' },
