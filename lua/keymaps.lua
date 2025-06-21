@@ -1,49 +1,173 @@
--- My own keymaps
-vim.keymap.set("n", "<leader>a", "ggVGy", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>v", vim.cmd.sp)
-vim.keymap.set("n", "<leader>h", vim.cmd.vsp)
-vim.keymap.set("n", "<C-n>", vim.cmd.bnext)
-vim.keymap.set("n", "<C-p>", vim.cmd.bprevious)
+M = {}
 
-vim.keymap.set("i", "<C-d>", "<Del>")
+M.global = function()
+    vim.keymap.set("n", "<leader>a", "ggVGy", { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>v", vim.cmd.sp)
+    vim.keymap.set("n", "<leader>h", vim.cmd.vsp)
+    vim.keymap.set("n", "<C-n>", vim.cmd.bnext)
+    vim.keymap.set("n", "<C-p>", vim.cmd.bprevious)
 
-vim.keymap.set("v", "<S-J>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
-vim.keymap.set("v", "<S-K>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+    vim.keymap.set("i", "<C-d>", "<Del>")
 
-vim.keymap.set("n", "<leader>p", '"_dP')
+    vim.keymap.set("v", "<S-J>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+    vim.keymap.set("v", "<S-K>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
 
--- Set highlight on search, but clear on pressing <Esc> in normal mode
-vim.opt.hlsearch = true
-vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+    vim.keymap.set("n", "<leader>P", '"_ddP')
+    vim.keymap.set("v", "<leader>P", '"_dp')
 
--- Diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+    -- Set highlight on search, but clear on pressing <Esc> in normal mode
+    vim.opt.hlsearch = true
+    vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
--- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
--- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
--- is not what someone will guess without a bit more experience.
---
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
--- vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+    -- Diagnostic keymaps
+    vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
+    vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+end
 
--- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
-vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
-vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
-vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
-vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
+M.oil = function()
+    vim.keymap.set("n", "<leader>pv", "<CMD>Oil<CR>", { desc = "Open directory in oil" })
+end
 
--- My own Requirements
-require("custom.functions.list_keymaps")
+M.undotree = function()
+    vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+end
+
+M.vim_tmux_navigator = function()
+    vim.keymap.set({ "n", "v", "i" }, "<C-h>", "<cmd>TmuxNavigateLeft<CR>")
+    vim.keymap.set({ "n", "v", "i" }, "<C-l>", "<cmd>TmuxNavigateRight<CR>")
+    vim.keymap.set({ "n", "v", "i" }, "<C-j>", "<cmd>TmuxNavigateDown<CR>")
+    vim.keymap.set({ "n", "v", "i" }, "<C-k>", "<cmd>TmuxNavigateUp<CR>")
+end
+
+M.lsp = function(bufnr)
+    local opts = { noremap = true, silent = true, buffer = bufnr }
+
+    -- Overtaken by snacks maybe will come back
+    -- km("n", "gd", vim.lsp.buf.definition, opts)
+    -- km("n", "gD", vim.lsp.buf.declaration, opts)
+    -- km("n", "gr", vim.lsp.buf.references, opts)
+    -- km("n", "gi", vim.lsp.buf.implementation, opts)
+    -- km("n", "gy", vim.lsp.buf.type_definition, opts)
+
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+    vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+end
+
+M.neogit = function()
+    vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen<CR>")
+
+    vim.api.nvim_create_autocmd("FileType", {
+        pattern = "DiffviewFiles",
+        callback = function()
+            vim.keymap.set("n", "q", ":DiffviewClose<CR>", { buffer = true, desc = "Diffview: Open" })
+        end,
+    })
+end
+
+M.dadbod = function()
+    vim.keymap.set("n", "<leader>db", "<cmd>DBUIToggle<CR>")
+end
+
+M.snacks = {
+    { "<leader>ps", function() Snacks.picker.smart() end,                                                         desc = "Smart Find Files" },
+    { "<leader>pf", function() Snacks.picker.files() end,                                                         desc = "Find Files" },
+    { "<leader>pr", function() Snacks.picker.recent() end,                                                        desc = "Recent" },
+    { "<leader>pg", function() Snacks.picker.grep() end,                                                          desc = "Grep" },
+    { "<leader>pa", function() Snacks.picker.git_status() end,                                                    desc = "Git Status" },
+    { "<leader>ph", function() require("snacks").picker.files({ sources = { files = { hidden = true }, }, }) end, desc = "Find Files (Including Hidden)", },
+
+    { "gd",         function() Snacks.picker.lsp_definitions() end,                                               desc = "Goto Definition" },
+    { "gD",         function() Snacks.picker.lsp_declarations() end,                                              desc = "Goto Declaration" },
+    { "gr",         function() Snacks.picker.lsp_references() end,                                                nowait = true,                          desc = "References" },
+    { "gi",         function() Snacks.picker.lsp_implementations() end,                                           desc = "Goto Implementation" },
+    { "gy",         function() Snacks.picker.lsp_type_definitions() end,                                          desc = "Goto T[y]pe Definition" },
+
+    { "<leader>:",  function() Snacks.picker.command_history() end,                                               desc = "Command History" },
+
+    { "<leader>gB", function() Snacks.gitbrowse() end,                                                            desc = "Git Browse",                    mode = { "n", "v" } },
+    { "<leader>un", function() Snacks.notifier.hide() end,                                                        desc = "Dismiss All Notifications" },
+    { "<leader>n",  function() Snacks.notifier.show_history() end,                                                desc = "Notification History" },
+    { "<leader>.",  function() Snacks.scratch() end,                                                              desc = "Toggle Scratch Buffer" },
+    { "<leader>cR", function() Snacks.rename.rename_file() end,                                                   desc = "Rename File" },
+
+    { "<leader>pc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end,                       desc = "Find Config File" },
+    { "<leader>pp", function() Snacks.picker.projects() end,                                                      desc = "Projects" },
+    { "<leader>si", function() Snacks.picker.icons() end,                                                         desc = "Icons" },
+    { "<leader>pe", function() Snacks.picker.resume() end,                                                        desc = "Resume" },
+    { "<leader>fb", function() Snacks.picker.buffers() end,                                                       desc = "Buffers" },
+    { "<leader>gb", function() Snacks.picker.grep_buffers() end,                                                  desc = "Grep Open Buffers" },
+    { "<leader>gw", function() Snacks.picker.grep_word() end,                                                     desc = "Visual selection or word",      mode = { "n", "x" } },
+    { "<leader>pd", function() Snacks.picker.diagnostics() end,                                                   desc = "Diagnostics" },
+}
+
+M.harpoon = function()
+    local mark = require("harpoon.mark")
+    local ui = require("harpoon.ui")
+
+    vim.keymap.set("n", "<leader>d", mark.add_file, { desc = "Harpoon Add File" })
+    vim.keymap.set("n", "<leader>l", ui.toggle_quick_menu, { desc = "Harpoon Toggle Menu" })
+
+    vim.keymap.set("n", "<leader>1", function() ui.nav_file(1) end, { desc = "Harpoon Goto File 1" })
+    vim.keymap.set("n", "<leader>2", function() ui.nav_file(2) end, { desc = "Harpoon Goto File 2" })
+    vim.keymap.set("n", "<leader>3", function() ui.nav_file(3) end, { desc = "Harpoon Goto File 3" })
+    vim.keymap.set("n", "<leader>4", function() ui.nav_file(4) end, { desc = "Harpoon Goto File 4" })
+    vim.keymap.set("n", "<leader>5", function() ui.nav_file(5) end, { desc = "Harpoon Goto File 5" })
+    vim.keymap.set("n", "<leader>6", function() ui.nav_file(6) end, { desc = "Harpoon Goto File 6" })
+end
+
+M.mini_surrond = {
+    add = 'sa',            -- Add surrounding in Normal and Visual modes
+    delete = 'sd',         -- Delete surrounding
+    find = 'sf',           -- Find surrounding (to the right)
+    find_left = 'sF',      -- Find surrounding (to the left)
+    highlight = 'sh',      -- Highlight surrounding
+    replace = 'sr',        -- Replace surrounding
+    update_n_lines = 'sn', -- Update `n_lines`
+
+    suffix_last = 'l',     -- Suffix to search with "prev" method
+    suffix_next = 'n',     -- Suffix to search with "next" method
+
+}
+
+M.dap = function()
+    local dap = require('dap')
+    local dapui = require('dapui')
+
+    vim.keymap.set("n", "<Leader>b", function() dap.toggle_breakpoint() end)
+
+    vim.keymap.set("n", "<F4>", dapui.toggle, { desc = "Debug: Toggle UI" })
+    vim.keymap.set("n", "<F5>", function() dap.continue() end)
+    vim.keymap.set("n", "<F6>", dap.run_to_cursor, { desc = "Debug: Run to cursor" })
+    vim.keymap.set("n", "<F11>", function() dap.step_into() end)
+    vim.keymap.set("n", "<F12>", function() dap.step_out() end)
+
+    -- vim.keymap.set("n", "<leader>d", function() dap.continue() end)
+    -- vim.keymap.set("n", "<leader>n", function() dap.step_over() end)
+    -- vim.keymap.set("n", "<leader>i", function() dap.step_into() end)
+
+    vim.keymap.set("n", "<Leader>B", function() dap.set_breakpoint(vim.fn.input("Breakpoint condition: ")) end)
+end
+
+
+-- Unused
+M.telescope = function()
+    local builtin = require("telescope.builtin")
+    vim.keymap.set("n", "<leader>ph", function() builtin.find_files({ hidden = true }) end,
+        { desc = "[S]earch [F]iles (hidden)" })
+    vim.keymap.set("n", "<leader>pf", builtin.find_files, { desc = "[S]earch [F]iles" })
+    vim.keymap.set("n", "<leader>pg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+    vim.keymap.set("n", "<leader>pe", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+    vim.keymap.set("n", "<leader>b", builtin.buffers, { desc = "[ ] Find existing buffers" })
+
+    vim.keymap.set("n", "<leader>pk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
+    vim.keymap.set("n", "<leader>ps", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
+    vim.keymap.set("n", "<leader>pd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
+    vim.keymap.set("n", "<leader>pr", builtin.resume, { desc = "[S]earch [R]esume" })
+end
+
+M.global()
+
+return M

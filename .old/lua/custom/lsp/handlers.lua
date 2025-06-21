@@ -32,13 +32,13 @@ M.on_attach = function(client, bufnr)
     km("n", "gD", vim.lsp.buf.declaration, opts)
     km("n", "gr", vim.lsp.buf.references, opts)
     km("n", "gi", vim.lsp.buf.implementation, opts)
+    km("n", "gy", vim.lsp.buf.type_definition, opts)
     km("n", "K", vim.lsp.buf.hover, opts)
     km("n", "<leader>rn", vim.lsp.buf.rename, opts)
     km("n", "<leader>ca", vim.lsp.buf.code_action, opts)
     km("n", "[d", vim.diagnostic.goto_prev, opts)
     km("n", "]d", vim.diagnostic.goto_next, opts)
     km("n", "<leader>q", vim.diagnostic.setloclist, opts)
-
 end
 
 return M

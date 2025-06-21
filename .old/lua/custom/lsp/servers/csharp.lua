@@ -3,7 +3,8 @@ local util = require("lspconfig.util")
 local M = {}
 
 -- flip this to false if you ever want C# disabled
-M.enabled = true
+-- DISABLED: Using roslyn.nvim plugin instead
+M.enabled = false
 
 M.opts = {
     -- mason will install "omnisharp" for us,
@@ -26,7 +27,7 @@ M.opts = {
         -- run Roslyn analyzers in the background
         EnableRoslynAnalyzers = true,
 
-        -- turn on “show me types I haven’t imported yet”
+        -- turn on "show me types I haven't imported yet"
         RoslynExtensionsOptions = {
             EnableImportCompletion = true,
         },

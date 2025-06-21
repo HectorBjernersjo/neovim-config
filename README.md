@@ -1,2 +1,14 @@
-# My Neovim config
-Based on kickstart.nvim but heavliy altered
+## Requirements
+
+### General
+```
+git
+wget
+probably some more shit
+```
+
+### Language specific
+```
+Python - debugpy (pip install)
+DotNet - netcoredbg (aur)
+```
