@@ -1,16 +1,22 @@
 return {
     {
-        'rebelot/kanagawa.nvim',
+        'ellisonleao/gruvbox.nvim',
         lazy = false,
         priority = 1000,
         config = function()
-            vim.cmd.colorscheme 'kanagawa'
+            vim.cmd.colorscheme 'gruvbox'
         end,
     },
-
-    { 'folke/tokyonight.nvim' },
-    { 'sainnhe/gruvbox-material' },
-    { 'luisiacc/gruvbox-baby' },
-    { 'ellisonleao/gruvbox.nvim' },
-    { 'rose-pine/neovim',        name = 'rose-pine' },
+    -- {
+    --     'rebelot/kanagawa.nvim',
+    --     lazy = false,
+    --     priority = 1000,
+    --     config = function()
+    --         vim.cmd.colorscheme 'kanagawa'
+    --     end,
+    -- },
+    -- { 'folke/tokyonight.nvim' },
+    -- { 'sainnhe/gruvbox-material' },
+    -- { 'luisiacc/gruvbox-baby' },
+    -- { 'rose-pine/neovim', name = 'rose-pine' },
 }

@@ -20,7 +20,7 @@ require("lazy").setup({
     spec = require('plugins'),
     -- Configure any other settings here. See the documentation for more details.
     -- automatically check for plugin updates
-    checker = { enabled = true },
+    checker = { enabled = false },
 
     ui = {
         icons = vim.g.have_nerd_font and {} or {

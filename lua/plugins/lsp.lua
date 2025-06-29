@@ -27,6 +27,15 @@ return {
         }
     },
     {
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
+        dependencies = { "mason-org/mason.nvim" },
+        opts = {
+            ensure_installed = {
+                "roslyn",
+            },
+        },
+    },
+    {
         'neovim/nvim-lspconfig',
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
@@ -35,27 +44,12 @@ return {
         config = function()
             local lspconfig = require('lspconfig')
 
-            local on_attach = function(client, bufnr)
-                require('keymaps').lsp(bufnr)
-            end
+            require('keymaps').lsp()
 
-            local capabilities = require('blink.cmp').get_lsp_capabilities()
-
-            lspconfig.lua_ls.setup({
-                on_attach = on_attach
-            })
-
-            lspconfig.ts_ls.setup({
-                on_attach = on_attach
-            })
-
-            lspconfig.html.setup({
-                on_attach = on_attach
-            })
-
-            lspconfig.bashls.setup({
-                on_attach = on_attach,
-            })
+            lspconfig.lua_ls.setup({})
+            lspconfig.ts_ls.setup({})
+            lspconfig.html.setup({})
+            lspconfig.bashls.setup({})
 
             require('scripts.format_on_save')
         end

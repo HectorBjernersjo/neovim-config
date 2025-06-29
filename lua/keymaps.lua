@@ -15,6 +15,9 @@ M.global = function()
     vim.keymap.set("n", "<leader>P", '"_ddP')
     vim.keymap.set("v", "<leader>P", '"_dp')
 
+    vim.keymap.set({ "n", "v", "i" }, "<leader>nt", ':tabnext<CR>', { noremap = true, silent = true })
+    -- vim.keymap.set({ "n", "v", "i" }, "<C-S-Tab>", ':tabprevious<CR>', { noremap = true, silent = true })
+
     -- Set highlight on search, but clear on pressing <Esc> in normal mode
     vim.opt.hlsearch = true
     vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -40,8 +43,8 @@ M.vim_tmux_navigator = function()
     vim.keymap.set({ "n", "v", "i" }, "<C-k>", "<cmd>TmuxNavigateUp<CR>")
 end
 
-M.lsp = function(bufnr)
-    local opts = { noremap = true, silent = true, buffer = bufnr }
+M.lsp = function()
+    -- local opts = { noremap = true, silent = true, buffer = bufnr }
 
     -- Overtaken by snacks maybe will come back
     -- km("n", "gd", vim.lsp.buf.definition, opts)
@@ -50,10 +53,10 @@ M.lsp = function(bufnr)
     -- km("n", "gi", vim.lsp.buf.implementation, opts)
     -- km("n", "gy", vim.lsp.buf.type_definition, opts)
 
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-    vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover)                 --, opts)
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename)       --, opts)
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)  --, opts)
+    vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist) --, opts)
 end
 
 M.neogit = function()
@@ -88,15 +91,15 @@ M.snacks = {
     { "<leader>:",  function() Snacks.picker.command_history() end,                                               desc = "Command History" },
 
     { "<leader>gB", function() Snacks.gitbrowse() end,                                                            desc = "Git Browse",                    mode = { "n", "v" } },
-    { "<leader>un", function() Snacks.notifier.hide() end,                                                        desc = "Dismiss All Notifications" },
-    { "<leader>n",  function() Snacks.notifier.show_history() end,                                                desc = "Notification History" },
+    { "<leader>nu", function() Snacks.notifier.hide() end,                                                        desc = "Dismiss All Notifications" },
+    { "<leader>nh", function() Snacks.notifier.show_history() end,                                                desc = "Notification History" },
     { "<leader>.",  function() Snacks.scratch() end,                                                              desc = "Toggle Scratch Buffer" },
     { "<leader>cR", function() Snacks.rename.rename_file() end,                                                   desc = "Rename File" },
 
     { "<leader>pc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end,                       desc = "Find Config File" },
     { "<leader>pp", function() Snacks.picker.projects() end,                                                      desc = "Projects" },
     { "<leader>si", function() Snacks.picker.icons() end,                                                         desc = "Icons" },
-    { "<leader>pe", function() Snacks.picker.resume() end,                                                        desc = "Resume" },
+    { "<leader>em", function() Snacks.picker.resume() end,                                                        desc = "Resume" },
     { "<leader>fb", function() Snacks.picker.buffers() end,                                                       desc = "Buffers" },
     { "<leader>gb", function() Snacks.picker.grep_buffers() end,                                                  desc = "Grep Open Buffers" },
     { "<leader>gw", function() Snacks.picker.grep_word() end,                                                     desc = "Visual selection or word",      mode = { "n", "x" } },
@@ -151,6 +154,10 @@ M.dap = function()
     vim.keymap.set("n", "<Leader>B", function() dap.set_breakpoint(vim.fn.input("Breakpoint condition: ")) end)
 end
 
+M.copilot = function()
+    vim.keymap.set("n", "<leader>ce", "<cmd>Copilot enable<CR>")
+    vim.keymap.set("n", "<leader>cd", "<cmd>Copilot disable<CR>")
+end
 
 -- Unused
 M.telescope = function()
