@@ -49,10 +49,10 @@ return {
                     path = {
                         score_offset = 300
                     },
-                    snippets = {
+                    lsp = {
                         score_offset = 200
                     },
-                    lsp = {
+                    snippets = {
                         score_offset = 100
                     },
                     buffer = {
