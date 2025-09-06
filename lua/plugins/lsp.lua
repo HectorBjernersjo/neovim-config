@@ -23,7 +23,7 @@ return {
                 "html",
                 "bashls"
             },
-            automatic_enable = false
+            automatic_enable = true
         }
     },
     {
@@ -45,11 +45,10 @@ return {
             local lspconfig = require('lspconfig')
 
             require('keymaps').lsp()
-
-            lspconfig.lua_ls.setup({})
-            lspconfig.ts_ls.setup({})
-            lspconfig.html.setup({})
-            lspconfig.bashls.setup({})
+            -- lspconfig.lua_ls.setup({})
+            -- lspconfig.ts_ls.setup({})
+            -- lspconfig.html.setup({})
+            -- lspconfig.bashls.setup({})
 
             require('scripts.format_on_save')
         end

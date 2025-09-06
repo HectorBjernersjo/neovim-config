@@ -4,6 +4,9 @@
 ```
 git
 wget
+gcc # (eller annan c compiler)
+npm
+unzip
 probably some more shit
 ```
 

@@ -15,10 +15,6 @@
 -- 3. The script creates the commands and keymaps for you.
 -- =============================================================================
 
--- --- Configuration ---
--- The command to execute. Make sure 'tmuxhelper.sh' is executable and either
--- in your shell's PATH or referenced via an absolute path.
-local runner_script = "dotnet_runner.sh"
 
 -- =============================================================================
 -- CORE LOGIC
@@ -57,9 +53,16 @@ local function run_project(opts)
         if opts.with_ts then
             ts_flag = "--ts "
         end
+        --
+        -- Dynamically find your Neovim config directory
+        local config_path = vim.fn.stdpath('config')
+
+        -- Define the paths to your runner and helper scripts
+        local runner_script = config_path .. "/scripts/dotnet-runner.sh"
+        local helper_script = config_path .. "/scripts/tmuxhelper.sh"
 
         -- We use vim.fn.shellescape to ensure the path is correctly quoted.
-        local cmd = string.format("%s %s%s", runner_script, ts_flag, vim.fn.shellescape(dir_path))
+        local cmd = string.format("%s %s%s", runner_script, helper_script, ts_flag, vim.fn.shellescape(dir_path))
 
         -- 3. Execute the command in the background.
         -- Using vim.fn.jobstart() is non-blocking, so it won't freeze Neovim.

@@ -20,7 +20,7 @@
 -- Configuration
 -- =============================================================================
 -- IMPORTANT: Set this path to your dotnet-tester.sh script
-vim.g.dotnet_tester_script_path = 'dotnet_tester.sh'
+
 
 -- =============================================================================
 -- Polyfill for users on Neovim < 0.8.0
@@ -150,8 +150,16 @@ local function run_tester_script(test_name, project_dir)
     --     return
     -- end
 
+    -- Dynamically find your Neovim config directory
+    local config_path = vim.fn.stdpath('config')
+
+    -- Define the paths to your runner and helper scripts
+    local runner_script = config_path .. "/scripts/dotnet-runner.sh"
+    local helper_script = config_path .. "/scripts/tmuxhelper.sh"
+
     local command = {
-        script_path,
+        runner_script,
+        helper_script,
         test_name,
         project_dir
     }
