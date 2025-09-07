@@ -49,6 +49,7 @@ return {
             -- lspconfig.ts_ls.setup({})
             -- lspconfig.html.setup({})
             -- lspconfig.bashls.setup({})
+            lspconfig.hls.setup({})
 
             require('scripts.format_on_save')
         end

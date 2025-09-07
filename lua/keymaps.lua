@@ -143,6 +143,7 @@ M.dap = function()
     vim.keymap.set("n", "<F4>", dapui.toggle, { desc = "Debug: Toggle UI" })
     vim.keymap.set("n", "<F5>", function() dap.continue() end)
     vim.keymap.set("n", "<F6>", dap.run_to_cursor, { desc = "Debug: Run to cursor" })
+    vim.keymap.set("n", "<F10>", function() dap.step_over() end)
     vim.keymap.set("n", "<F11>", function() dap.step_into() end)
     vim.keymap.set("n", "<F12>", function() dap.step_out() end)
 
