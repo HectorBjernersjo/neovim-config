@@ -7,6 +7,7 @@ return {
     require('plugins.tiny_inline_diagnostics'),
     require('plugins.trouble'),
     require('plugins.copilot'),
+    require('plugins.colorizer'),
 
     require('plugins.snacks'),
     require('plugins.mini'),

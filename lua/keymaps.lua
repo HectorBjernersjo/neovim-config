@@ -103,6 +103,7 @@ M.snacks = {
     { "<leader>gb", function() Snacks.picker.grep_buffers() end,                                                  desc = "Grep Open Buffers" },
     { "<leader>gw", function() Snacks.picker.grep_word() end,                                                     desc = "Visual selection or word",      mode = { "n", "x" } },
     { "<leader>pd", function() Snacks.picker.diagnostics() end,                                                   desc = "Diagnostics" },
+    { "<leader>pm", function() Snacks.picker.icons() end,                                                         desc = "Icons" },
 }
 
 M.harpoon = function()

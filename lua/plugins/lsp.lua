@@ -21,7 +21,10 @@ return {
                 "lua_ls",
                 "ts_ls",
                 "html",
-                "bashls"
+                "cssls",
+                "pyright",
+                "bashls",
+                "clangd",
             },
             automatic_enable = true
         }
@@ -45,11 +48,15 @@ return {
             local lspconfig = require('lspconfig')
 
             require('keymaps').lsp()
-            -- lspconfig.lua_ls.setup({})
-            -- lspconfig.ts_ls.setup({})
-            -- lspconfig.html.setup({})
-            -- lspconfig.bashls.setup({})
+            lspconfig.lua_ls.setup({})
+            lspconfig.ts_ls.setup({})
+            lspconfig.html.setup({})
+            lspconfig.cssls.setup({})
+            lspconfig.bashls.setup({})
+            lspconfig.pyright.setup({})
             lspconfig.hls.setup({})
+            lspconfig.clangd.setup({})
+            lspconfig.dartls.setup({}) -- Added for Flutter/Dart support
 
             require('scripts.format_on_save')
         end

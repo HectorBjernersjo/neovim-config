@@ -2,7 +2,20 @@ return {
     {
         "seblyng/roslyn.nvim",
         ft = "cs",
-        opts = {},
+        opts = {
+            root_dir = function(fname)
+                local root_files = vim.fs.find({ '*.sln', '*.csproj' }, {
+                    upward = true,
+                    path = fname,
+                })
+
+                if #root_files > 0 then
+                    return vim.fn.fnamemodify(root_files[1], ':h')
+                end
+
+                return nil
+            end,
+        },
     },
 }
 
