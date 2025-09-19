@@ -15,6 +15,9 @@ M.global = function()
     vim.keymap.set("n", "<leader>P", '"_ddP')
     vim.keymap.set("v", "<leader>P", '"_dp')
 
+    vim.keymap.set("n", "cn", ":cnext<CR>")
+    vim.keymap.set("n", "cp", ":cprevious<CR>")
+
     vim.keymap.set({ "n" }, "<leader>nt", ':tabnext<CR>', { noremap = true, silent = true })
 
     -- Set highlight on search, but clear on pressing <Esc> in normal mode
