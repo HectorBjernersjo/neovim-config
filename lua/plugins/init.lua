@@ -3,11 +3,12 @@ return {
     require('plugins.undotree'),
     require('plugins.neogit'),
     require('plugins.dadbod'),
-    require('plugins.harpoon'),
+    -- require('plugins.harpoon'),
     require('plugins.tiny_inline_diagnostics'),
     require('plugins.trouble'),
     require('plugins.copilot'),
     require('plugins.colorizer'),
+    require('plugins.golf'),
 
     require('plugins.snacks'),
     require('plugins.mini'),

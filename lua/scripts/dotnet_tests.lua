@@ -3,7 +3,7 @@
 --
 -- Description:
 -- This script provides functionality to run .NET tests from within Neovim
--- using the 'dotnet-tester.sh' script.
+-- using the 'dotnet_tester.sh' script.
 --
 -- Commands:
 --   :WhereAmI        - Displays the fully qualified name of the symbol under the cursor.
@@ -12,14 +12,14 @@
 --
 -- Setup:
 -- 1. Place this file in your Neovim configuration directory (e.g., '~/.config/nvim/lua/plugin/dotnet-testing.lua').
--- 2. Make sure the `dotnet-tester.sh` script is executable (`chmod +x /path/to/dotnet-tester.sh`).
+-- 2. Make sure the `dotnet_tester.sh` script is executable (`chmod +x /path/to/dotnet-tester.sh`).
 -- 3. Update the `vim.g.dotnet_tester_script_path` variable below to point to your script.
 -- =============================================================================
 
 -- =============================================================================
 -- Configuration
 -- =============================================================================
--- IMPORTANT: Set this path to your dotnet-tester.sh script
+-- IMPORTANT: Set this path to your dotnet_tester.sh script
 
 
 -- =============================================================================
@@ -139,7 +139,7 @@ local function get_symbol_path_and_run(scope, callback)
     end)
 end
 
---- Executes the dotnet-tester.sh script.
+--- Executes the dotnet_tester.sh script.
 ---@param test_name string The fully qualified name of the test/class to run.
 ---@param project_dir string The directory of the test project.
 local function run_tester_script(test_name, project_dir)
@@ -154,7 +154,7 @@ local function run_tester_script(test_name, project_dir)
     local config_path = vim.fn.stdpath('config')
 
     -- Define the paths to your runner and helper scripts
-    local runner_script = config_path .. "/scripts/dotnet-runner.sh"
+    local runner_script = config_path .. "/scripts/dotnet_runner.sh"
     local helper_script = config_path .. "/scripts/tmuxhelper.sh"
 
     local command = {
@@ -211,7 +211,7 @@ vim.api.nvim_create_user_command(
         end)
     end,
     {
-        desc = "Runs the .NET test under the cursor using dotnet-tester.sh",
+        desc = "Runs the .NET test under the cursor using dotnet_tester.sh",
     }
 )
 
@@ -227,6 +227,6 @@ vim.api.nvim_create_user_command(
         end)
     end,
     {
-        desc = "Runs all .NET tests in the current class using dotnet-tester.sh",
+        desc = "Runs all .NET tests in the current class using dotnet_tester.sh",
     }
 )

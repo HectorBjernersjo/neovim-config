@@ -58,7 +58,7 @@ local function run_project(opts)
         local config_path = vim.fn.stdpath('config')
 
         -- Define the paths to your runner and helper scripts
-        local runner_script = config_path .. "/scripts/dotnet-runner.sh"
+        local runner_script = config_path .. "/scripts/dotnet_runner.sh"
         local helper_script = config_path .. "/scripts/tmuxhelper.sh"
 
         -- We use vim.fn.shellescape to ensure the path is correctly quoted.

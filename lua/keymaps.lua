@@ -62,7 +62,16 @@ M.lsp = function()
 end
 
 M.neogit = function()
-    vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen<CR>")
+    vim.keymap.set('n', '<leader>gdm', function()
+        -- 1. Find the commit where this branch forked from master
+        local merge_base = vim.fn.system("git merge-base HEAD master"):gsub("\n", "")
+
+        -- 2. Run Diffview against that specific commit and the current files
+        vim.cmd("DiffviewOpen " .. merge_base)
+    end, { desc = "View working changes against master's fork-point" })
+
+    vim.keymap.set('n', '<leader>gdh', '<cmd>DiffviewOpen HEAD<CR>')
+    vim.keymap.set('n', '<leader>gdc', '<cmd>DiffviewOpen<CR>')
 
     vim.api.nvim_create_autocmd("FileType", {
         pattern = "DiffviewFiles",
