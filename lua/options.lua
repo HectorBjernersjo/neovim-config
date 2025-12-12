@@ -18,6 +18,8 @@ vim.opt.mouse = "a"
 vim.opt.showmode = false
 
 vim.opt.swapfile = false
+-- Ignore whitespace in diffs
+vim.o.diffopt = vim.o.diffopt .. ",iwhiteall"
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.

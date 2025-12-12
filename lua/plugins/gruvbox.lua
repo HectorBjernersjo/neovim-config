@@ -4,7 +4,7 @@ return {
         'luisiacc/gruvbox-baby',
         'ellisonleao/gruvbox.nvim',
         config = function()
-            -- vim.cmd [[colorscheme gruvbox-material]]
+            vim.cmd [[colorscheme gruvbox]]
 
             vim.api.nvim_set_hl(0, "DiffAdd", { bg = "#20303b" })
             vim.api.nvim_set_hl(0, "DiffDelete", { bg = "#37222c" })

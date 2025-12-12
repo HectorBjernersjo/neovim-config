@@ -25,7 +25,9 @@ return {
 
     require("plugins.vim_tmux_navigator"),
 
-    require("plugins.theme"),
+    -- require("plugins.theme"),
+    -- require("plugins.gruvbox"),
+    require("plugins.colorscheme"),
 
     -- require('plugins.telescope'),
 }
