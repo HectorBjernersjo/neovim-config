@@ -1,0 +1,1 @@
+/home/hector/.nvim_themes/theme.lua
