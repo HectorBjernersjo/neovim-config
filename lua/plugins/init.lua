@@ -30,4 +30,6 @@ return {
     require("plugins.colorscheme"),
 
     -- require('plugins.telescope'),
+
+    require("plugins.csv"),
 }
