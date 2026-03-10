@@ -71,7 +71,7 @@ M.neogit = function()
         end
 
         -- Prefer main, fallback to master
-        local base_branch = branch_exists("main") and "main" or "master"
+        local base_branch = branch_exists("main") and "main" or "origin/master"
 
         -- Find fork point
         local merge_base = vim.fn.system(

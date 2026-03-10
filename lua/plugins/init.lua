@@ -2,6 +2,7 @@ return {
     require("plugins.oil"),
     require("plugins.undotree"),
     require("plugins.neogit"),
+    require("plugins.gitsigns"),
     require("plugins.dadbod"),
     -- require('plugins.harpoon'),
     require("plugins.tiny_inline_diagnostics"),
@@ -24,6 +25,7 @@ return {
     require("plugins.roslyn"),
 
     require("plugins.vim_tmux_navigator"),
+    require("plugins.markdown_preview"),
 
     -- require("plugins.theme"),
     -- require("plugins.gruvbox"),
